@@ -11,9 +11,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 15: Contract Type Analysis",
+    title="Loan Contract Types & Product Structure",
     subtitle="Analyze credit applications according to loan contract structure: Cash Loans vs Revolving Lines of Credit.",
-    badge="Contract Structuring",
+    badge="Module 15 • Product Structuring",
 )
 
 contract_agg = filtered_df.groupby("NAME_CONTRACT_TYPE").agg(

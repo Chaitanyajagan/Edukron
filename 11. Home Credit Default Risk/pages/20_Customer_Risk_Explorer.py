@@ -10,9 +10,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 20: Customer Risk Explorer & Export Engine",
+    title="Applicant Dossier & Customer Risk Explorer",
     subtitle="Search individual customer dossiers by SK_ID_CURR, evaluate calculated risk indicators, and export custom segments.",
-    badge="Underwriting Dossier",
+    badge="Module 20 • Underwriting Dossier Engine",
 )
 
 # 1. Search Section by SK_ID_CURR

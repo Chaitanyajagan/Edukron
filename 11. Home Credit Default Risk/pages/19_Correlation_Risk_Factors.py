@@ -10,9 +10,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 19: Correlation & Risk Factor Analysis",
+    title="Correlation Heatmap & Key Risk Drivers",
     subtitle="Identify important numerical relationships, feature collinearity, and prime statistical drivers of loan default.",
-    badge="Risk Factors BI",
+    badge="Module 19 • Risk Driver Collinearity",
 )
 
 corr_features = [

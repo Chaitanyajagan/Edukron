@@ -12,9 +12,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 10: Annuity Burden Analysis",
+    title="Debt-to-Income & Annuity Burden Stress",
     subtitle="Assess debt-to-income (DTI) repayment stress and the proportion of borrower income committed to loan servicing.",
-    badge="Debt Burden BI",
+    badge="Module 10 • Debt Service Ratio (DTI)",
 )
 
 avg_burden = filtered_df["Annuity Burden %"].mean() if "Annuity Burden %" in filtered_df.columns else 0.0

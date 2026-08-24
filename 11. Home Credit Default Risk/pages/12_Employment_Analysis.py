@@ -10,9 +10,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 12: Employment Analysis",
+    title="Employment Tenure & Occupational Risk",
     subtitle="Understand how employment status, work history tenure, and occupational categories influence credit risk.",
-    badge="Employment Risk",
+    badge="Module 12 • Workforce Stability",
 )
 
 avg_emp_yrs = filtered_df["Employment Years"].mean() if "Employment Years" in filtered_df.columns else 0.0

@@ -11,9 +11,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 3: Customer Demographic Analysis",
+    title="Borrower Demographic Risk Analysis",
     subtitle="Understand demographic profiles, household structures, and credit delinquency across borrower segments.",
-    badge="Demographic BI",
+    badge="Module 03 • Demographic Intelligence",
 )
 
 total_clients = len(filtered_df)

@@ -4,23 +4,51 @@ import pandas as pd
 import numpy as np
 from typing import Optional, List, Union
 
-COLOR_SEQUENCE = ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", "#06b6d4", "#ec4899", "#6366f1"]
+COLOR_SEQUENCE = [
+    "#3B82F6",  # Electric Blue
+    "#06B6D4",  # Cyan
+    "#10B981",  # Emerald
+    "#F59E0B",  # Amber
+    "#8B5CF6",  # Violet
+    "#EC4899",  # Pink
+    "#6366F1",  # Indigo
+    "#14B8A6",  # Teal
+]
+
 TARGET_COLORS = {
-    "Repaid (TARGET = 0)": "#3b82f6",
-    "Default (TARGET = 1)": "#ef4444",
-    "Repaid": "#3b82f6",
-    "Default": "#ef4444"
+    "Repaid (TARGET = 0)": "#3B82F6",
+    "Default (TARGET = 1)": "#EF4444",
+    "Repaid": "#3B82F6",
+    "Default": "#EF4444",
+    "0": "#3B82F6",
+    "1": "#EF4444"
 }
 
 
-def apply_chart_layout(fig: go.Figure, title: str = "", height: int = 420, show_legend: bool = True) -> go.Figure:
-    """Configures clean, modern, theme-adaptive layout with zero label collisions."""
+def apply_chart_layout(
+    fig: go.Figure,
+    title: str = "",
+    height: int = 420,
+    show_legend: bool = True
+) -> go.Figure:
+    """Configures modern, dark-slate transparent layout with clean typography and zero collisions."""
     fig.update_layout(
         height=height,
-        margin=dict(l=35, r=25, t=60, b=50),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        margin=dict(l=35, r=25, t=55, b=50),
+        font=dict(
+            family="Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+            color="#F1F5F9",
+            size=12
+        ),
         title=dict(
             text=f"<b>{title}</b>" if title else "",
-            font=dict(size=14),
+            font=dict(
+                family="Plus Jakarta Sans, sans-serif",
+                size=14,
+                color="#F8FAFC"
+            ),
             x=0.0,
             y=0.98,
             xanchor="left",
@@ -35,19 +63,32 @@ def apply_chart_layout(fig: go.Figure, title: str = "", height: int = 420, show_
             x=0.5,
             bgcolor="rgba(0,0,0,0)",
             title=dict(text=""),
+            font=dict(size=11, color="#94A3B8")
         ),
-        hoverlabel=dict(font_size=12),
+        hoverlabel=dict(
+            bgcolor="#0F172A",
+            bordercolor="#334155",
+            font_size=12,
+            font_family="Inter, sans-serif",
+            font_color="#F8FAFC"
+        ),
     )
     fig.update_xaxes(
         showgrid=True,
         gridwidth=1,
-        gridcolor="rgba(150, 150, 150, 0.2)",
+        gridcolor="rgba(148, 163, 184, 0.08)",
+        zeroline=False,
+        tickfont=dict(size=11, color="#94A3B8"),
+        title_font=dict(size=12, color="#CBD5E1"),
         automargin=True,
     )
     fig.update_yaxes(
         showgrid=True,
         gridwidth=1,
-        gridcolor="rgba(150, 150, 150, 0.2)",
+        gridcolor="rgba(148, 163, 184, 0.08)",
+        zeroline=False,
+        tickfont=dict(size=11, color="#94A3B8"),
+        title_font=dict(size=12, color="#CBD5E1"),
         automargin=True,
     )
     return fig
@@ -59,10 +100,11 @@ def create_donut_chart(
     values_col: str,
     title: str = "",
     height: int = 420,
-    hole: float = 0.55
+    hole: float = 0.58
 ) -> go.Figure:
-    """Creates an aesthetic donut chart with percentage labels that never overlap."""
+    """Creates a sleek donut chart with high-contrast labels and smooth colors."""
     color_map = TARGET_COLORS if any(k in df[names_col].astype(str).values for k in TARGET_COLORS) else None
+    
     fig = px.pie(
         df,
         names=names_col,
@@ -74,17 +116,20 @@ def create_donut_chart(
     )
     fig.update_traces(
         textposition="inside",
-        textinfo="percent",
-        insidetextorientation="horizontal",
+        textinfo="percent+label",
+        insidetextorientation="radial",
         hovertemplate="<b>%{label}</b><br>Count: %{value:,}<br>Share: %{percent:.1%}<extra></extra>",
-        textfont=dict(size=13, color="#ffffff")
+        textfont=dict(size=12, color="#FFFFFF", family="Inter, sans-serif"),
+        marker=dict(line=dict(color="#0B0F19", width=2))
     )
     fig.update_layout(
         height=height,
-        margin=dict(l=30, r=30, t=60, b=50),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        margin=dict(l=30, r=30, t=55, b=45),
         title=dict(
             text=f"<b>{title}</b>" if title else "",
-            font=dict(size=14),
+            font=dict(family="Plus Jakarta Sans, sans-serif", size=14, color="#F8FAFC"),
             x=0.0,
             y=0.98,
             xanchor="left",
@@ -97,7 +142,8 @@ def create_donut_chart(
             xanchor="center",
             x=0.5,
             bgcolor="rgba(0,0,0,0)",
-            title=dict(text="")
+            title=dict(text=""),
+            font=dict(size=11, color="#94A3B8")
         )
     )
     return fig
@@ -113,11 +159,9 @@ def create_bar_chart(
     height: int = 420,
     text_auto: bool = True
 ) -> go.Figure:
-    """Creates a responsive bar chart with vertical or horizontal orientation."""
+    """Creates a responsive modern bar chart with sleek styling."""
     has_color = color_col and color_col in df.columns
     color_map = TARGET_COLORS if has_color and any(k in df[color_col].astype(str).values for k in TARGET_COLORS) else None
-
-    # Use 1-decimal place format for percentages / values
     text_format = ".1f" if text_auto else None
 
     fig = px.bar(
@@ -130,11 +174,14 @@ def create_bar_chart(
         color_discrete_map=color_map if color_map else None,
         color_discrete_sequence=COLOR_SEQUENCE if not color_map else None,
     )
-    fig.update_traces(textposition="outside", cliponaxis=False)
+    fig.update_traces(
+        textposition="outside",
+        cliponaxis=False,
+        textfont=dict(size=11, color="#CBD5E1", family="Inter, sans-serif"),
+        marker=dict(line=dict(width=0))
+    )
     
-    # Hide legend if color column is identical to x_col (redundant)
     show_leg = has_color and color_col != x_col
-
     return apply_chart_layout(fig, title=title, height=height, show_legend=show_leg)
 
 
@@ -146,9 +193,10 @@ def create_line_trend(
     height: int = 420,
     show_markers: bool = True
 ) -> go.Figure:
-    """Creates a smooth line trend chart."""
+    """Creates a smooth spline line trend chart."""
     cols = [y_cols] if isinstance(y_cols, str) else y_cols
     fig = go.Figure()
+    
     for idx, col in enumerate(cols):
         c = COLOR_SEQUENCE[idx % len(COLOR_SEQUENCE)]
         fig.add_trace(
@@ -157,8 +205,8 @@ def create_line_trend(
                 y=df[col],
                 name=col,
                 mode="lines+markers" if show_markers else "lines",
-                line=dict(width=3, color=c),
-                marker=dict(size=6, color=c)
+                line=dict(width=3, color=c, shape="spline"),
+                marker=dict(size=7, color=c, line=dict(width=1.5, color="#0B0F19"))
             )
         )
     show_leg = len(cols) > 1
@@ -174,7 +222,7 @@ def create_scatter_plot(
     title: str = "",
     height: int = 440
 ) -> go.Figure:
-    """Creates an interactive scatter plot with non-overlapping titles and legends."""
+    """Creates an interactive scatter plot with clean modern markers."""
     valid_df = df.copy()
     has_color = color_col and color_col in valid_df.columns
     color_map = TARGET_COLORS if has_color and any(k in valid_df[color_col].astype(str).values for k in TARGET_COLORS) else None
@@ -187,7 +235,10 @@ def create_scatter_plot(
         hover_name=hover_name if hover_name in valid_df.columns else None,
         color_discrete_map=color_map if color_map else None,
         color_discrete_sequence=COLOR_SEQUENCE if not color_map else None,
-        opacity=0.75,
+        opacity=0.78,
+    )
+    fig.update_traces(
+        marker=dict(size=6, line=dict(width=0.5, color="rgba(255,255,255,0.2)"))
     )
     fig.update_layout(legend_title_text="")
     return apply_chart_layout(fig, title=title, height=height, show_legend=bool(has_color))
@@ -201,7 +252,7 @@ def create_histogram(
     height: int = 400,
     color_by: Optional[str] = None
 ) -> go.Figure:
-    """Creates a distribution histogram."""
+    """Creates a distribution histogram with clean translucent bars."""
     has_color = color_by and color_by in df.columns
     color_map = TARGET_COLORS if has_color and any(k in df[color_by].astype(str).values for k in TARGET_COLORS) else None
 
@@ -213,7 +264,10 @@ def create_histogram(
         barmode="overlay" if has_color else None,
         color_discrete_map=color_map if color_map else None,
         color_discrete_sequence=COLOR_SEQUENCE if not color_map else None,
-        opacity=0.65 if has_color else 0.85,
+        opacity=0.7 if has_color else 0.85,
+    )
+    fig.update_traces(
+        marker=dict(line=dict(width=1, color="rgba(0,0,0,0.25)"))
     )
     fig.update_layout(legend_title_text="")
     return apply_chart_layout(fig, title=title, height=height, show_legend=bool(has_color))
@@ -226,13 +280,17 @@ def create_box_plot(
     title: str = "",
     height: int = 420
 ) -> go.Figure:
-    """Creates comparative box plots across categories."""
+    """Creates comparative box plots with vibrant color styling."""
     fig = px.box(
         df,
         x=x_col,
         y=y_col,
         color=x_col,
         color_discrete_sequence=COLOR_SEQUENCE
+    )
+    fig.update_traces(
+        marker=dict(size=4),
+        line=dict(width=1.5)
     )
     return apply_chart_layout(fig, title=title, height=height, show_legend=False)
 
@@ -243,7 +301,7 @@ def create_heatmap_matrix(
     height: int = 500,
     colorscale: str = "Blues"
 ) -> go.Figure:
-    """Creates a correlation matrix heatmap with values displayed."""
+    """Creates an aesthetic correlation matrix heatmap with legible values."""
     z_vals = pivot_df.values
     x_labels = pivot_df.columns.tolist()
     y_labels = pivot_df.index.tolist()
@@ -256,8 +314,13 @@ def create_heatmap_matrix(
             colorscale=colorscale,
             text=np.round(z_vals, 2),
             texttemplate="%{text}",
-            textfont={"size": 10},
-            hoverongaps=False
+            textfont=dict(size=10, family="JetBrains Mono, monospace"),
+            hoverongaps=False,
+            colorbar=dict(
+                title="",
+                tickfont=dict(size=10, color="#94A3B8"),
+                len=0.8
+            )
         )
     )
     return apply_chart_layout(fig, title=title, height=height, show_legend=False)

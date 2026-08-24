@@ -12,9 +12,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 8: Annuity Analysis",
+    title="Annuity Obligations & Repayment Flow",
     subtitle="Study applicants' annual and periodic loan payment obligations and repayment capacity.",
-    badge="Payment Schedules",
+    badge="Module 08 • Installment Sizing",
 )
 
 avg_annuity = filtered_df["AMT_ANNUITY"].mean() if "AMT_ANNUITY" in filtered_df.columns else 0.0

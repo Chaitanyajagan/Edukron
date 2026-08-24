@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from utils.page_helpers import apply_page_config, render_header, render_insights_card
+from utils.page_helpers import apply_page_config, render_header, render_insights_card, render_metric_card
 from utils.data_loader import load_home_credit_data
 from utils.kpis import calculate_home_credit_kpis, format_currency, format_percent, format_number
 from utils.charts import create_bar_chart, create_donut_chart, create_scatter_plot
@@ -13,7 +13,7 @@ except Exception as e:
     st.error(f"Error loading Home Credit dataset: {e}")
     st.stop()
 
-# Header
+# Header with Enterprise Badge
 render_header(
     title="Home Credit Default Risk Intelligence Platform",
     subtitle="Enterprise Credit Risk Analytics & Default Prediction Platform • 20 Interactive Analytical Perspectives",
@@ -22,18 +22,53 @@ render_header(
 
 kpis = calculate_home_credit_kpis(df)
 
-# Pure Streamlit Metric Cards
+# Top KPI Metric Row
 c1, c2, c3, c4, c5 = st.columns(5)
-c1.metric("Total Applicants", format_number(kpis["total_applications"]), help="Total Loan Requests Analyzed")
-c2.metric("Default Rate", format_percent(kpis["default_rate"]), f"{format_number(kpis['default_customers'])} Defaults", delta_color="inverse")
-c3.metric("Total Credit Issued", format_currency(kpis["total_credit"]), "Cumulative Exposure")
-c4.metric("Avg Client Income", format_currency(kpis["avg_income"]), "Annual Earnings")
-c5.metric("Avg Applicant Age", f"{kpis['avg_age']:.1f} Yrs", f"Bureau Score: {kpis['avg_ext_score']:.2f}")
+with c1:
+    render_metric_card(
+        label="Total Applicants",
+        value=format_number(kpis["total_applications"]),
+        subtext="Analyzed Loan Requests",
+        accent_color="#3B82F6"
+    )
+with c2:
+    render_metric_card(
+        label="Default Rate",
+        value=format_percent(kpis["default_rate"]),
+        subtext=f"{format_number(kpis['default_customers'])} Delinquencies",
+        delta="Target = 1",
+        delta_type="negative",
+        accent_color="#EF4444"
+    )
+with c3:
+    render_metric_card(
+        label="Total Credit Issued",
+        value=format_currency(kpis["total_credit"]),
+        subtext="Cumulative Exposure",
+        accent_color="#10B981"
+    )
+with c4:
+    render_metric_card(
+        label="Avg Client Income",
+        value=format_currency(kpis["avg_income"]),
+        subtext="Annual Salary Basis",
+        accent_color="#F59E0B"
+    )
+with c5:
+    render_metric_card(
+        label="Avg External Score",
+        value=f"{kpis['avg_ext_score']:.3f}",
+        subtext=f"Mean Age: {kpis['avg_age']:.1f} Yrs",
+        delta="Bureau Index",
+        delta_type="positive",
+        accent_color="#8B5CF6"
+    )
 
+st.write("")
 st.divider()
 
 # Executive Visualizations
-st.subheader("📊 Executive Portfolio Snapshot")
+st.markdown("### 📊 Executive Portfolio Snapshot")
 r1, r2, r3 = st.columns([1.2, 1.2, 1.6])
 
 with r1:
@@ -67,39 +102,54 @@ with r3:
 
 st.divider()
 
-# 20 Analytical Perspectives Matrix in pure Streamlit containers
-st.subheader("🗂️ 20 Comprehensive Analytical Perspectives")
-st.caption("Select any perspective from the **Sidebar Navigation** or browse the summary below:")
+# 20 Analytical Perspectives Matrix with Category Tabs
+st.markdown("### 🗂️ 20 Comprehensive Analytical Perspectives")
+st.caption("Select any perspective from the **Sidebar Navigation** or browse the curated categories below:")
 
-pages_info = [
-    ("01 Executive Overview", "📈", "Portfolio overview, default rates, volume, income and credit metrics."),
-    ("02 Default Analysis", "🎯", "In-depth TARGET variable distribution across contract, income, and education."),
-    ("03 Demographic Analysis", "👥", "Gender, age, marital status, and housing demographic risk profiles."),
-    ("04 Age Analysis", "🎂", "Age cohorts (18–25 to 61+) and their direct correlation with repayment risk."),
-    ("05 Gender Analysis", "👤", "Comparative benchmark between male and female credit applicants."),
-    ("06 Income Analysis", "💰", "Income distribution (<50K to >500K) and default rates across salary tiers."),
-    ("07 Credit Analysis", "💳", "Loan sizes requested, credit brackets, and default rates by loan size."),
-    ("08 Annuity Analysis", "💵", "Annual loan payment obligations, annuity distribution, and repayment risk."),
-    ("09 Income vs Credit", "⚖️", "Credit-to-Income leverage scatter plots and risk tiers (<2x to >6x)."),
-    ("10 Annuity Burden", "📊", "Debt-to-Income burden ratio and repayment stress indicators."),
-    ("11 Education Analysis", "🎓", "Education levels (Academic Degree to Lower Secondary) and default risk."),
-    ("12 Employment Analysis", "💼", "Work tenure, high-risk occupations, and organization categories."),
-    ("13 Family & Children", "👨‍👩‍👧", "Household size, number of dependents, and family status risk factors."),
-    ("14 Housing & Assets", "🏠", "Car and real estate collateral ownership impact on default rates."),
-    ("15 Contract Analysis", "📄", "Cash Loans vs Revolving Loans risk profiling and credit terms."),
-    ("16 External Scores", "🌟", "EXT_SOURCE_1/2/3 predictive credit bureau score analysis."),
-    ("17 Regional Risk", "🌍", "Regional population densities, city risk ratings, and address mismatches."),
-    ("18 Missing Values", "🔍", "Data quality auditor, missing data heatmaps, and imputation strategy."),
-    ("19 Correlation & Risk", "🔗", "Feature correlation heatmap against TARGET and key default drivers."),
-    ("20 Customer Risk Explorer", "👤", "Search applicant by SK_ID_CURR, risk dossier card, and CSV downloads."),
-]
+categories = {
+    "🏢 Core Portfolio & Dossier": [
+        ("Executive Portfolio Overview", "📈", "Portfolio overview, default rates, volume, income and credit metrics.", "Overview"),
+        ("Default Propensity & Target", "🎯", "In-depth TARGET variable distribution across contract, income, and education.", "Target"),
+        ("Loan Contract Structuring", "📄", "Cash Loans vs Revolving Loans risk profiling and credit terms.", "Products"),
+        ("Customer Risk Explorer", "👤", "Search applicant by SK_ID_CURR, risk dossier card, and CSV downloads.", "Dossier"),
+    ],
+    "👥 Borrower Demographics": [
+        ("Demographic Risk Profiling", "👥", "Gender, age, marital status, and housing demographic risk profiles.", "Demographics"),
+        ("Age Cohorts & Credit Risk", "🎂", "Age cohorts (18–25 to 61+) and their direct correlation with repayment risk.", "Age Risk"),
+        ("Gender Underwriting Spread", "👤", "Comparative benchmark between male and female credit applicants.", "Gender"),
+        ("Education Risk Stratification", "🎓", "Education levels (Academic Degree to Lower Secondary) and default risk.", "Education"),
+        ("Family & Dependent Risk", "👨‍👩‍👧", "Household size, number of dependents, and family status risk factors.", "Family"),
+    ],
+    "💰 Income, Credit & Debt Burden": [
+        ("Income Distribution & Tiers", "💰", "Income distribution (<50K to >500K) and default rates across salary tiers.", "Income"),
+        ("Credit Exposure & Sizing", "💳", "Loan sizes requested, credit brackets, and default rates by loan size.", "Credit"),
+        ("Annuity Payment Sizing", "💵", "Annual loan payment obligations, annuity distribution, and repayment risk.", "Installments"),
+        ("Income vs. Credit Leverage", "⚖️", "Credit-to-Income leverage scatter plots and risk tiers (<2x to >6x).", "Leverage"),
+        ("Debt-to-Income Annuity Burden", "📊", "Debt-to-Income burden ratio and repayment stress indicators.", "DTI Ratio"),
+    ],
+    "💼 Employment, Assets & Geography": [
+        ("Employment & Occupational Risk", "💼", "Work tenure, high-risk occupations, and organization categories.", "Employment"),
+        ("Housing & Collateral Assets", "🏠", "Car and real estate collateral ownership impact on default rates.", "Collateral"),
+        ("Regional Density & Spatial Risk", "🌍", "Regional population densities, city risk ratings, and address mismatches.", "Geography"),
+    ],
+    "🔬 Bureau Scores & Risk Factors": [
+        ("External Bureau Scores", "🌟", "EXT_SOURCE_1/2/3 predictive credit bureau score analysis.", "Bureau Scores"),
+        ("Data Quality & Missing Auditor", "🔍", "Data quality auditor, missing data heatmaps, and imputation strategy.", "Data Quality"),
+        ("Correlation & Risk Drivers", "🔗", "Feature correlation heatmap against TARGET and key default drivers.", "Collinearity"),
+    ]
+}
 
-cols = st.columns(4)
-for idx, (title, icon, desc) in enumerate(pages_info):
-    with cols[idx % 4]:
-        with st.container(border=True):
-            st.markdown(f"**{icon} {title}**")
-            st.caption(desc)
+tab_names = list(categories.keys())
+tabs = st.tabs(tab_names)
+
+for tab_idx, tab_name in enumerate(tab_names):
+    with tabs[tab_idx]:
+        pages = categories[tab_name]
+        cols = st.columns(len(pages))
+        for col_idx, (title, icon, desc, tag) in enumerate(pages):
+            with cols[col_idx]:
+                card_html = f"""<div style="background: linear-gradient(145deg, rgba(19, 28, 46, 0.7) 0%, rgba(10, 15, 26, 0.85) 100%); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 12px; padding: 16px; height: 100%; min-height: 155px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);"><div><div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;"><span style="font-size: 1.3rem;">{icon}</span><span style="font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; background: rgba(59, 130, 246, 0.15); color: #60A5FA; border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 9999px; padding: 2px 8px;">{tag}</span></div><div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem; font-weight: 700; color: #F1F5F9; margin-bottom: 6px;">{title}</div><div style="font-size: 0.8rem; color: #94A3B8; line-height: 1.4;">{desc}</div></div></div>"""
+                st.markdown(card_html, unsafe_allow_html=True)
 
 st.divider()
 

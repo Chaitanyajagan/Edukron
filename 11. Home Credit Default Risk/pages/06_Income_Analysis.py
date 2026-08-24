@@ -11,9 +11,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 6: Income Analysis",
+    title="Income Distribution & Salary Tier Risk",
     subtitle="Analyze applicant earnings, salary tiers, and the statistical relationship between income and credit risk.",
-    badge="Income Intelligence",
+    badge="Module 06 • Income Tiers & Volatility",
 )
 
 tot_income = filtered_df["AMT_INCOME_TOTAL"].sum() if "AMT_INCOME_TOTAL" in filtered_df.columns else 0.0

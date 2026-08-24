@@ -11,9 +11,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 9: Income vs Credit Analysis",
+    title="Income vs. Credit Leverage Matrix",
     subtitle="Determine whether borrowers are taking loans proportional to their income capacity and evaluate leverage risk.",
-    badge="Leverage Ratios",
+    badge="Module 09 • Leverage Multipliers",
 )
 
 avg_ratio = filtered_df["Credit to Income Ratio"].mean() if "Credit to Income Ratio" in filtered_df.columns else 0.0

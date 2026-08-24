@@ -11,9 +11,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 13: Family & Children Analysis",
+    title="Family Structure & Household Risk Factors",
     subtitle="Study whether household composition, dependent children count, and family status influence credit risk.",
-    badge="Household Risk",
+    badge="Module 13 • Household Dependents",
 )
 
 avg_children = filtered_df["CNT_CHILDREN"].mean() if "CNT_CHILDREN" in filtered_df.columns else 0.0

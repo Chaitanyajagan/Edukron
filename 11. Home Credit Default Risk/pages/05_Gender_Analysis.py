@@ -11,9 +11,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 5: Gender Analysis",
+    title="Gender Underwriting & Risk Benchmark",
     subtitle="Compare credit demand, default rates, income earnings, and repayment capacity across genders.",
-    badge="Gender Demographics",
+    badge="Module 05 • Gender Risk Spread",
 )
 
 gender_df = filtered_df[filtered_df["CODE_GENDER"] != "XNA"]

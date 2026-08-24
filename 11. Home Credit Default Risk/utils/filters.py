@@ -6,8 +6,12 @@ from typing import Tuple, Dict, Any
 def render_sidebar_filters(df: pd.DataFrame) -> Tuple[pd.DataFrame, Dict[str, Any]]:
     """
     Renders enterprise sidebar filter controls for Home Credit Default Risk dataset
-    matching all common filters defined in Projects.ipynb.
+    with modern brand widget, interactive sliders, and active coverage indicator.
     """
+    # 1. Sidebar Brand & Metadata Header (single line/unindented to prevent markdown code-block parsing)
+    sidebar_brand_html = f"""<div style="background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.85) 100%); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 12px; padding: 14px 16px; margin-bottom: 1rem; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);"><div style="display: flex; align-items: center; gap: 10px;"><div style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #3B82F6, #1D4ED8); display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);">🏦</div><div><div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.92rem; font-weight: 700; color: #FFFFFF; letter-spacing: -0.01em;">Home Credit Risk BI</div><div style="font-size: 0.72rem; color: #94A3B8; font-weight: 500;">Underwriting Suite v2.5</div></div></div><div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; justify-content: space-between; font-size: 0.72rem; color: #60A5FA;"><span>🟢 System Online</span><span style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">{len(df):,} Applicants</span></div></div>"""
+    st.sidebar.markdown(sidebar_brand_html, unsafe_allow_html=True)
+    
     st.sidebar.markdown("### 🎛️ Underwriting Filters")
     filtered_df = df.copy()
     filters_applied = {}

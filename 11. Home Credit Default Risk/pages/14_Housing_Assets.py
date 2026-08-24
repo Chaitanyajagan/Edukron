@@ -11,9 +11,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 14: Housing & Asset Analysis",
+    title="Collateral Assets & Housing Risk Profile",
     subtitle="Analyze property and vehicle ownership, collateral assets, and housing stability.",
-    badge="Collateral Analytics",
+    badge="Module 14 • Asset Collateralization",
 )
 
 total_clients = len(filtered_df)

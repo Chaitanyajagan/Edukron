@@ -11,9 +11,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 16: External Credit Score Analysis",
+    title="External Credit Bureau Score Intelligence",
     subtitle="Analyze external credit bureau score distributions (EXT_SOURCE_1/2/3) and their predictive discrimination of default risk.",
-    badge="Bureau Scores",
+    badge="Module 16 • Bureau Predictive Power",
 )
 
 avg_ext1 = filtered_df["EXT_SOURCE_1"].mean() if "EXT_SOURCE_1" in filtered_df.columns else 0.0

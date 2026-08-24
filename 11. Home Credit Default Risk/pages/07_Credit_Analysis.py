@@ -11,9 +11,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 7: Credit Amount Analysis",
+    title="Credit Exposure & Loan Ticket Sizing",
     subtitle="Analyze requested loan sizing, exposure brackets, and the relationship between credit amount and default propensity.",
-    badge="Credit Sizing",
+    badge="Module 07 • Capital Sizing & Exposure",
 )
 
 tot_credit = filtered_df["AMT_CREDIT"].sum() if "AMT_CREDIT" in filtered_df.columns else 0.0

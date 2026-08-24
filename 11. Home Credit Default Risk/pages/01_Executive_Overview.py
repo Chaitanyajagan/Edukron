@@ -11,9 +11,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 1: Executive Overview",
+    title="Executive Portfolio Overview",
     subtitle="Comprehensive high-level picture of loan applicants, credit exposure, and portfolio default risk.",
-    badge="Executive Dashboard",
+    badge="Module 01 • Portfolio Analytics",
 )
 
 kpis = calculate_home_credit_kpis(filtered_df)

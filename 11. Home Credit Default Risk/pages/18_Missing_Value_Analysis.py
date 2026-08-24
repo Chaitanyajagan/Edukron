@@ -9,9 +9,9 @@ apply_page_config(page_title="Missing Value Analysis", page_icon="🔍")
 df = load_home_credit_data()
 
 render_header(
-    title="Page 18: Missing Value Analysis",
+    title="Data Quality & Missing Value Auditor",
     subtitle="Audit missing data patterns, null distributions, column completeness, and recommended ML imputation strategies.",
-    badge="Data Quality BI",
+    badge="Module 18 • Data Hygiene & Completeness",
 )
 
 total_rows, total_cols = df.shape

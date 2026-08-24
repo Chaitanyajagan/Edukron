@@ -11,9 +11,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 11: Education Analysis",
+    title="Education Level & Risk Stratification",
     subtitle="Analyze applicants according to educational attainment level, earning power, and default risk.",
-    badge="Education BI",
+    badge="Module 11 • Educational Attainment",
 )
 
 edu_agg = filtered_df.groupby("NAME_EDUCATION_TYPE").agg(

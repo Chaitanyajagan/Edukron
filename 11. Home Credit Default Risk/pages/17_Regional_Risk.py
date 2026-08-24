@@ -10,9 +10,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 17: Regional Risk Analysis",
+    title="Regional Density & Geographic Risk Rating",
     subtitle="Analyze whether applicant location, regional credit rating indices, and address mismatches influence loan default rates.",
-    badge="Geographic Risk",
+    badge="Module 17 • Spatial Risk Dynamics",
 )
 
 common_rating = filtered_df["REGION_RATING_CLIENT"].mode().iloc[0] if "REGION_RATING_CLIENT" in filtered_df.columns else 2

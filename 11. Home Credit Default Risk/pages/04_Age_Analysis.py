@@ -10,9 +10,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 4: Age Cohorts & Credit Risk",
+    title="Age Cohorts & Lifecycle Credit Risk",
     subtitle="Analyze the relationship between applicant age brackets, credit demand, and loan repayment risk.",
-    badge="Age Demographics",
+    badge="Module 04 • Actuarial Age Brackets",
 )
 
 avg_age = filtered_df["Age"].mean() if "Age" in filtered_df.columns and len(filtered_df) > 0 else 0.0

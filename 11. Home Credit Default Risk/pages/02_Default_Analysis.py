@@ -11,9 +11,9 @@ df = load_home_credit_data()
 filtered_df, _ = render_sidebar_filters(df)
 
 render_header(
-    title="Page 2: Target / Default Analysis",
+    title="Default Propensity & Target Analysis",
     subtitle="In-depth analysis of the binary TARGET variable and default propensity across core borrower dimensions.",
-    badge="Target Analytics",
+    badge="Module 02 • Delinquency Profiling",
 )
 
 kpis = calculate_home_credit_kpis(filtered_df)
